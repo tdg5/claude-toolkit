@@ -1,0 +1,31 @@
+name: Style, test, and build packages
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  style-test-and-build:
+    name: Style, test, and build packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          cache: pip
+          python-version: '3.14'
+
+      - name: Install dependencies
+        run: ./scripts/setup.sh
+
+      - name: Check requirements.txt is up to date
+        run: ./scripts/pip-freeze.sh --verify
+
+      - name: Check style
+        run: ./scripts/pre-commit.sh --verify
+
+      - name: Run tests
+        run: ./scripts/pytest.sh

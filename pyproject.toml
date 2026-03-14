@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claude-toolkit"
+version = "0.1.0"
+description = "Monorepo for Claude toolkit packages"
+license = "MIT"
+requires-python = ">=3.14"
+authors = [
+  { name = "Danny Guinther" },
+]
+
+[project.optional-dependencies]
+dev = [
+  "black~=26.3",
+  "coverage~=7.4",
+  "dlint~=0.14.1",
+  "flake8-comprehensions~=3.17.0",
+  "flake8-eradicate~=1.5.0",
+  "flake8-pyproject~=1.2.4",
+  "flake8-spellcheck~=0.28.0",
+  "flake8-typing-imports~=1.17.0",
+  "flake8~=7.3.0",
+  "isort~=5.13.2",
+  "mypy~=1.19.1",
+  "pep8-naming~=0.13.3",
+  "pre-commit~=3.6.0",
+  "pytest~=7.4.0",
+  "pytest-mock~=3.15.1",
+  "safety~=3.7.0",
+]
+
+[tool.setuptools.packages.find]
+include = []
+
+[tool.black]
+include = "packages/.*\\.py$"
+line-length = 88
+target-version = ["py314"]
+
+[tool.coverage.run]
+parallel = true
+source = [
+  "packages/claude-toolkit-core/claude_toolkit_core",
+  "packages/claude-toolkit-cli/claude_toolkit_cli",
+]
+
+[tool.coverage.report]
+fail_under = 90
+
+[tool.flake8]
+ignore = ["E203", "E251", "E701", "W503"]
+max-line-length = 88
+min_python_version = "3.14.0"
+
+[tool.isort]
+include_trailing_comma = true
+known_first_party = [
+  "claude_toolkit_core",
+  "claude_toolkit_core_test",
+  "claude_toolkit_cli",
+  "claude_toolkit_cli_test",
+]
+line_length = 88
+multi_line_output = 3
+profile = "black"
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+use_parentheses = true
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+ignore_missing_imports = false
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+markers = [
+  "integration_test: marks tests as integration tests (deselect with '-m \"not integration_test\"')",
+]
