@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claude-toolkit-cli"
+version = "0.1.0"
+description = "CLI application for Claude hooks and toolkit commands"
+license = "MIT"
+requires-python = ">=3.14"
+authors = [
+  { name = "Danny Guinther" },
+]
+dependencies = [
+  "claude-toolkit-core>=0.1.0",
+  "click>=8.0",
+]
+
+[project.scripts]
+claude-toolkit = "claude_toolkit_cli.main:cli"
+
+[tool.setuptools.packages.find]
+include = ["claude_toolkit_cli", "claude_toolkit_cli.*"]
+
+[tool.setuptools.package-data]
+claude_toolkit_cli = ["py.typed"]

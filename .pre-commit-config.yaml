@@ -1,0 +1,76 @@
+exclude: "docs|.git|.tox"
+default_stages: [commit]
+default_language_version:
+  python: python3.14
+fail_fast: false
+
+repos:
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        language: system
+        entry: black
+        args: []
+        types: [python]
+      - id: flake8
+        name: flake8
+        language: system
+        entry: flake8p
+        args: [
+          "packages/claude-toolkit-core/claude_toolkit_core",
+          "packages/claude-toolkit-core/claude_toolkit_core_test",
+          "packages/claude-toolkit-cli/claude_toolkit_cli",
+          "packages/claude-toolkit-cli/claude_toolkit_cli_test",
+        ]
+        pass_filenames: false
+      - id: mypy
+        name: Mypy check
+        entry: mypy
+        language: system
+        args: [
+          "packages/claude-toolkit-core/claude_toolkit_core",
+          "packages/claude-toolkit-core/claude_toolkit_core_test",
+          "packages/claude-toolkit-cli/claude_toolkit_cli",
+          "packages/claude-toolkit-cli/claude_toolkit_cli_test",
+        ]
+        pass_filenames: false
+      - id: isort
+        name: isort
+        entry: isort
+        args: [
+          "packages/claude-toolkit-core/claude_toolkit_core",
+          "packages/claude-toolkit-core/claude_toolkit_core_test",
+          "packages/claude-toolkit-cli/claude_toolkit_cli",
+          "packages/claude-toolkit-cli/claude_toolkit_cli_test",
+        ]
+        language: system
+        pass_filenames: false
+      - id: safety-production-dependencies-check
+        name: Safety production dependencies check
+        entry: safety
+        args: [check, --policy-file=.safety-policy.yml, --full-report, --file]
+        language: system
+        files: requirements.txt
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+        exclude: README.md
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: name-tests-test
+        args: ["--pytest-test-first"]
+        exclude: factories.py
+      - id: requirements-txt-fixer
+      - id: check-yaml
+        args: ["--allow-multiple-documents"]
+      - id: check-toml
+      - id: check-json
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: check-ast
+      - id: check-symlinks

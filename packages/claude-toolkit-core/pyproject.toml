@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claude-toolkit-core"
+version = "0.1.0"
+description = "Shared utilities and models for the Claude toolkit"
+license = "MIT"
+requires-python = ">=3.14"
+authors = [
+  { name = "Danny Guinther" },
+]
+dependencies = [
+  "pydantic~=2.5",
+]
+
+[tool.setuptools.packages.find]
+include = ["claude_toolkit_core", "claude_toolkit_core.*"]
+
+[tool.setuptools.package-data]
+claude_toolkit_core = ["py.typed"]
